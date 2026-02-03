@@ -1,30 +1,35 @@
 {
   "profile": {
-    "name": "Nama Peserta",
-    "role": "Peserta CODEX 2026",
-    "bio": "Isi dengan bio singkat yang keren di sini."
+    "name": "Peserta CODEX",
+    "role": "Mahasiswa Teknik Informatika UKRI",
+    "bio": "Halo, saya mahasiswa teknik Informatika universitas kebangsaan republik indonesia. Selamat datang di website portolio saya, contact me if u needed any information!"
   },
+  "skills": [
+    { "name": "HTML/CSS", "level": "90%" },
+    { "name": "JavaScript", "level": "75%" },
+    { "name": "UI Design", "level": "80%" },
+    { "name": "Node.js", "level": "60%" }
+  ],
   "links": [
     {
+      "title": "WhatsApp Me",
+      "url": "https://wa.me/628123456789",
+      "icon": "fa-brands fa-whatsapp"
+    },
+    {
       "title": "Instagram",
-      "url": "https://instagram.com/username",
+      "url": "https://instagram.com/hmif_ukri",
       "icon": "fa-brands fa-instagram"
     },
     {
-      "title": "GitHub",
-      "url": "https://github.com/username",
-      "icon": "fa-brands fa-github"
+      "title": "Facebook",
+      "url": "https://facebook.com/hmif_ukri",
+      "icon": "fa-brands fa-facebook"
     },
     {
-      "title": "LinkedIn",
-      "url": "https://linkedin.com/in/username",
+      "title": "LinkedIn Profile",
+      "url": "https://linkedin.com/in/himpunan-mahasiswa-teknik-informatika-hmif-ukri",
       "icon": "fa-brands fa-linkedin"
     }
-  ],
-  "skills": [
-    { "name": "HTML", "level": "90%" },
-    { "name": "CSS", "level": "80%" },
-    { "name": "JavaScript", "level": "50%" },
-    { "name": "Express Js", "level": "50%" }
   ]
 }

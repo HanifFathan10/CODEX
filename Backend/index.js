@@ -1,12 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-
-// TODO: Import GoogleGenAI dari library @google/genai (Akan dikerjakan di Pertemuan 4)
-// import { GoogleGenAI } from "@google/genai";
-
-// TODO: Import data profile dari file JSON (Akan dikerjakan di Pertemuan 3/4)
-// import profile from "./data.json" with { type: "json" };
+import { GoogleGenAI, ThinkingLevel } from "@google/genai";
+import profile from "./data.json" with { type: "json" };
 
 dotenv.config();
 
@@ -16,41 +12,54 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
 
-// TODO: Konfigurasi API KEY Gemini di sini (Pertemuan 4)
-// const genAI = ...
-
-app.get("/", (req, res) => {
-  res.send("Server CODEX Running Brow!!!");
+// GEN AI
+const genAI = new GoogleGenAI({
+  apiKey: process.env.SECRET_KEY_GEMINI_API,
 });
 
+// API
 app.get("/profile", (req, res) => {
-  // TODO: Ganti ini agar mengirim data dari variable 'profile' (Pertemuan 3)
-  res.json({
-    status: false,
-    message: "Endpoint ini belum di-coding! Silakan buka index.js",
-    data: null,
+  return res.json({
+    status: true,
+    statusCode: 200,
+    data: profile,
   });
 });
 
 app.get("/chat", async (req, res) => {
   try {
-    const prompt = req.query.prompt || "Halo";
+    const prompt = req.query.prompt || "Halo Gemini!";
 
-    // TODO: Validasi prompt kosong
+    const result = await genAI.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: prompt,
+      config: {
+        systemInstruction:
+          "Kamu adalah CODEX Bot, yang membantu pengunjung website untuk memberikan informasi dan menjawab pertanyaan mereka.",
+        // thinkingConfig: {
+        //   thinkingLevel: ThinkingLevel.LOW, // Kalo pake ini, ganti modelnya ke "gemini-3-flash-preview"
+        // },
+        responseJsonSchema: {
+          type: "object",
+          properties: {
+            answer: {
+              type: "string",
+              role: "Jawaban dari bot",
+            },
+          },
+          required: ["answer"],
+        },
+      },
+    });
 
-    // TODO: Panggil Model Gemini AI di sini (Pertemuan 4)
-    // const result = await genAI.models.generateContent(...)
-    // const responseText = result.text;
-
-    // Placeholder Response (Sebelum AI aktif)
-    const dummyResponse = `Halo! Saya CODEX Bot. Tapi otak saya belum dipasang di index.js. Kamu mengirim: "${prompt}"`;
+    const response = result.text;
 
     res.status(200).json({
       status: "success",
       message: {
         id: Date.now(),
         role: "assistant",
-        content: dummyResponse,
+        content: response,
         timestamp: new Date().toISOString(),
       },
     });
@@ -58,7 +67,7 @@ app.get("/chat", async (req, res) => {
     console.log("🚀 ~ error:", error);
     res.status(500).json({
       status: "error",
-      message: "Terjadi kesalahan pada server",
+      message: "Terjadi kesalahan pada server AI",
     });
   }
 });
