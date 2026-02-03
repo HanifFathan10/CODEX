@@ -1,114 +1,48 @@
 document.addEventListener("DOMContentLoaded", () => {
-  setupEventListeners();
-  getDataProfile();
+  // TODO: Panggil fungsi setupEventListeners()
+  // TODO: Panggil fungsi getDataProfile()
+  console.log("Aplikasi siap!");
 });
 
 function setupEventListeners() {
   const sendBtn = document.querySelector(".btn-chat");
-  if (sendBtn) {
-    sendBtn.addEventListener("click", sendMessage);
-  }
-
   const inputBox = document.getElementById("user-input");
-  if (inputBox) {
-    inputBox.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") {
-        sendMessage();
-      }
-    });
-  }
+
+  // TODO: Tambahkan event listener 'click' pada sendBtn untuk memanggil sendMessage
+
+  // TODO: Tambahkan event listener 'keypress' pada inputBox (Jika tekan Enter, kirim pesan)
 }
 
 async function getDataProfile() {
   const nameEl = document.getElementById("userName");
   const roleEl = document.getElementById("user-role");
-  const bioEl = document.getElementById("user-bio");
-  const linksContainer = document.getElementById("linksContainer");
-  const skillsContainer = document.getElementById("skillsGrid");
+  // ambil elemen lainnya (bio, links container, skills container)
 
   try {
-    const response = await fetch("http://localhost:5000/profile");
-    const result = await response.json();
+    // TODO: Gunakan fetch() untuk mengambil data dari "http://localhost:5000/profile"
+    // const response = await fetch(...)
 
-    if (result.status === true) {
-      const data = result.data;
+    // TODO: Parsing hasil response ke JSON
 
-      if (nameEl) nameEl.textContent = data.profile.name;
-      if (roleEl) roleEl.textContent = data.profile.role;
-      if (bioEl) bioEl.textContent = data.profile.bio;
+    // TODO: Jika status sukses, isi textContent elemen HTML dengan data dari JSON
 
-      if (linksContainer && data.links) {
-        renderLinks(data.links, linksContainer);
-      }
-
-      if (skillsContainer && data.skills) {
-        renderSkills(data.skills, skillsContainer);
-      }
-    }
+    console.log("Sedang mengambil data..."); // Hapus baris ini nanti
   } catch (error) {
-    appendMessage("bot", "Gagal memuat data profil.");
+    console.error("Gagal mengambil data:", error);
   }
 }
 
 function renderLinks(linksData, container) {
+  // Kosongkan container dulu
   container.innerHTML = "";
 
-  linksData.forEach((link) => {
-    const a = document.createElement("a");
-    a.href = link.url;
-    a.target = "_blank";
-    a.className = "persona-link glass";
-    a.innerHTML = `<i class="${link.icon}"></i> <span>${link.title}</span>`;
-    linksContainer.appendChild(a);
-
-    container.appendChild(a);
-  });
+  // TODO: Lakukan Looping (forEach) pada linksData
+  // Di dalam loop: Buat elemen <a>, isi class, href, dan innerHTML icon+text
+  // Lalu append ke container
 }
 
 function renderSkills(skillsData, container) {
-  container.innerHTML = "";
-
-  skillsData.forEach((skill) => {
-    const div = document.createElement("div");
-    div.className = "skill-card glass";
-    div.innerHTML = `
-                <p class="skill-name">${skill.name}</p>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: ${skill.level}"></div>
-                </div>
-            `;
-    skillsGrid.appendChild(div);
-
-    container.appendChild(div);
-  });
-}
-
-function setupEventListeners() {
-  const sendBtn = document.querySelector(".btn-chat");
-  if (sendBtn) {
-    sendBtn.addEventListener("click", sendMessage);
-  }
-
-  const inputBox = document.getElementById("user-input");
-  if (inputBox) {
-    inputBox.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") {
-        sendMessage();
-      }
-    });
-  }
-}
-
-function appendMessage(role, text) {
-  const chatBox = document.getElementById("chat-box");
-  const msgDiv = document.createElement("div");
-
-  msgDiv.className = `message ${role}`;
-  msgDiv.innerText = text;
-
-  chatBox.appendChild(msgDiv);
-
-  chatBox.scrollTop = chatBox.scrollHeight;
+  // TODO: Mirip dengan renderLinks, tapi buat elemen <div> untuk skill bar
 }
 
 async function sendMessage() {
@@ -121,19 +55,22 @@ async function sendMessage() {
   input.value = "";
 
   try {
-    const response = await fetch(
-      `http://localhost:5000/chat?prompt=${encodeURIComponent(prompt)}`,
-    );
-    const result = await response.json();
+    // TODO: Fetch ke endpoint "http://localhost:5000/chat" dengan query param ?prompt=...
 
-    if (result.status === "success") {
-      appendMessage("bot", result.message.content);
-    } else {
-      appendMessage("bot", "Maaf, saya sedang pusing. Coba lagi nanti.");
-    }
+    // TODO: Tampilkan balasan bot menggunakan appendMessage
+
+    appendMessage("bot", "Halo, fitur ini belum aktif. Silakan coding dulu!");
   } catch (error) {
-    appendMessage("bot", "Maaf, sistem sedang offline.");
+    appendMessage("bot", "Maaf, sistem error.");
   }
+}
+
+function appendMessage(role, text) {
+  const chatBox = document.getElementById("chat-box");
+
+  // TODO: Buat elemen div baru
+  // TODO: Beri class 'message' dan role (user/bot)
+  // TODO: Isi text dan masukkan ke chatBox
 }
 
 const themeBtn = document.getElementById("themeToggle");

@@ -39,15 +39,7 @@ body {
   line-height: 1.5;
 }
 
-.main-container {
-  max-width: 42rem;
-  margin: 0 auto;
-  padding: 4rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
+/* Class Utility untuk Efek Kaca */
 .glass {
   background: var(--glass-bg);
   backdrop-filter: blur(12px);
@@ -56,173 +48,37 @@ body {
   border-radius: 1.5rem;
 }
 
-.btn-theme-toggle {
-  position: fixed;
-  top: 1.25rem;
-  right: 1.25rem;
-  z-index: 50;
-  padding: 0.75rem;
-  cursor: pointer;
-  border: 1px solid var(--glass-border);
-  border-radius: 9999px;
-  transition: transform 0.2s;
-  color: var(--text-main);
-}
-
-.btn-theme-toggle:hover {
-  transform: scale(1.1);
+.main-container {
+  /* TODO: Gunakan max-width, margin auto, dan flex column */
 }
 
 .profile-header {
-  text-align: center;
+  /* TODO: Atur text align center */
 }
-.avatar-wrapper {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 1rem;
-}
+
 .avatar-image {
+  /* TODO: Berikan ukuran lebar/tinggi, border-radius bulat, dan overflow hidden */
   width: 8rem;
   height: 8rem;
   border-radius: 9999px;
-  overflow: hidden;
-  border: 4px solid var(--accent-color);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-}
-.avatar-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: white;
-}
-.status-indicator {
-  position: absolute;
-  bottom: 0.25rem;
-  right: 0.25rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  background-color: #22c55e;
-  border: 4px solid var(--bg-color);
-  border-radius: 9999px;
-}
-.user-name {
-  font-size: 1.875rem;
-  font-weight: 800;
-}
-.user-role {
-  color: var(--accent-color);
-  font-weight: 600;
-}
-.user-bio {
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  padding: 0 2rem;
-  margin-top: 0.5rem;
 }
 
 .links-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  /* TODO: Gunakan Flexbox column dan gap */
 }
+
 .persona-link {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  text-decoration: none;
-  color: var(--text-main);
-  font-weight: 600;
-  box-shadow: var(--card-shadow);
-  transition: transform 0.2s;
-}
-.persona-link:hover {
-  transform: scale(1.02);
-}
-.persona-link i {
-  width: 1.5rem;
-  text-align: center;
-  color: var(--accent-color);
-  font-size: 1.25rem;
+  /* TODO: Styling kartu link (padding, display flex, align items center) */
 }
 
-.section-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-}
 .skills-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-}
-.skill-card {
-  padding: 1rem;
-}
-.skill-name {
-  font-size: 0.75rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-}
-.progress-bar {
-  width: 100%;
-  height: 0.5rem;
-  background-color: #e2e8f0;
-  border-radius: 9999px;
-  overflow: hidden;
-}
-body.dark .progress-bar {
-  background-color: #334155;
-}
-.progress-fill {
-  height: 100%;
-  background-color: var(--accent-color);
+  /* TODO: Gunakan Display Grid (2 kolom) */
 }
 
-.guestbook-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-.input-field {
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: 0.75rem;
-  background-color: var(--input-bg);
+.chat-box {
+  /* TODO: Berikan tinggi tetap, border, dan overflow-y auto */
+  height: 300px;
   border: 1px solid var(--glass-border);
-  color: var(--text-main);
-  outline: none;
-}
-.input-field:focus {
-  box-shadow: 0 0 0 2px var(--accent-color);
-}
-.textarea {
-  height: 6rem;
-  resize: none;
-}
-.btn-submit {
-  padding: 0.75rem;
-  background-color: var(--accent-color);
-  color: white;
-  border: none;
-  border-radius: 0.75rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.btn-submit:hover {
-  background-color: var(--accent-hover);
-}
-.message-card {
-  padding: 1rem;
-  border-left: 4px solid var(--accent-color);
-  margin-top: 0.75rem;
-}
-.app-footer {
-  text-align: center;
-  font-size: 0.75rem;
-  color: var(--text-muted);
 }
 
 @keyframes fadeIn {
@@ -235,105 +91,7 @@ body.dark .progress-bar {
     transform: translateY(0);
   }
 }
+
 .animate-fade-in {
   animation: fadeIn 0.8s ease-out forwards;
-}
-
-@media (max-width: 480px) {
-  .skills-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.chat-container {
-  overflow: hidden;
-}
-
-.chat-box {
-  border: 1px solid var(--text-main);
-  border-radius: 21px;
-  height: 400px;
-  overflow-y: auto;
-  padding: 15px;
-  background: var(--bg-color);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 12px;
-  -webkit-border-radius: 21px;
-  -moz-border-radius: 21px;
-  -ms-border-radius: 21px;
-  -o-border-radius: 21px;
-}
-
-.message {
-  padding: 8px 12px;
-  border-radius: 15px;
-  max-width: 80%;
-  font-family: sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.user {
-  align-self: flex-end;
-  background: var(--accent-color);
-  color: var(--bg-color);
-}
-
-.bot {
-  align-self: flex-start;
-  background: var(--text-main);
-  color: var(--bg-color);
-}
-
-.input-area {
-  display: flex;
-  gap: 12px;
-  padding: 10px;
-  background: var(--bg-color);
-  border-top: 1px solid var(--bg-color);
-}
-
-.btn-chat {
-  background-color: var(--accent-color);
-  transition: all;
-  animation-duration: 300;
-  font-family: var(--font-main);
-  font-weight: 800;
-  padding: 12px 16px;
-  cursor: pointer;
-  border: none;
-  border-radius: 12px;
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  -ms-border-radius: 12px;
-  -o-border-radius: 12px;
-  -webkit-transition: all;
-  -moz-transition: all;
-  -ms-transition: all;
-  -o-transition: all;
-}
-
-.btn-chat::hover {
-  background-color: var(--accent-hover);
-}
-
-#user-input {
-  flex: 1;
-  padding: 8px;
-  border: 1px solid var(--accent-color);
-  border-radius: 4px;
-}
-
-.guestbook-section {
-  margin-top: 20px;
-}
-
-.guestbook-card {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  padding: 21px;
-  border: 1px solid var(--text-main);
 }
