@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CODEX Persona</title>
+    <!-- CDN Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <!-- CDN Google Font | Poppins -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body class="app-body">
+    <button id="themeToggle" class="btn-theme-toggle glass">🌙</button>
+
+    <div class="main-container">
+      <header class="profile-header animate-fade-in">
+        <div class="avatar-wrapper">
+          <div class="avatar-image">
+            <img src="./image/logo_metaforsa.png" alt="Avatar" />
+          </div>
+          <span class="status-indicator"></span>
+        </div>
+
+        <div class="profile-info">
+          <h1 id="userName" class="user-name">Nama Mahasiswa</h1>
+          <p class="user-role">Mahasiswa Teknik Informatika</p>
+          <p class="user-bio">
+            "Halo, saya mahasiswa teknik Informatika universitas kebangsaan
+            republik indonesia. Selamat datang di website portolio saya, contact
+            me if u needed any information!"
+          </p>
+        </div>
+      </header>
+
+      <section
+        class="links-section animate-fade-in"
+        style="animation-delay: 0.2s"
+      >
+        <div id="linksContainer" class="links-list"></div>
+      </section>
+
+      <section
+        class="skills-section animate-fade-in"
+        style="animation-delay: 0.4s"
+      >
+        <h2 class="section-title">My Skills</h2>
+        <div class="skills-grid" id="skillsGrid"></div>
+      </section>
+
+      <section
+        class="chat-container animate-fade-in"
+        style="animation-delay: 0.6s"
+      >
+        <h2>Tanya tanya CODEX</h2>
+        <div id="chat-box" class="chat-box"></div>
+        <div class="input-area">
+          <input
+            type="text"
+            id="user-input"
+            placeholder="Tanya sesuatu ke CODEX Bot..."
+          />
+          <button class="btn-chat" onclick="sendMessage()">Kirim</button>
+        </div>
+      </section>
+
+      <section
+        class="guestbook-section animate-fade-in"
+        style="animation-delay: 0.6s"
+      >
+        <div class="guestbook-card glass">
+          <h2 class="section-title">Tinggalkan Pesan</h2>
+          <hr />
+          <form id="guestbookForm" class="guestbook-form">
+            <input
+              type="text"
+              id="senderName"
+              placeholder="Nama Anda"
+              required
+              class="input-field"
+            />
+            <textarea
+              id="senderMessage"
+              placeholder="Pesan untuk saya..."
+              required
+              class="input-field textarea"
+            ></textarea>
+            <button type="submit" class="btn-submit">Kirim Pesan</button>
+          </form>
+        </div>
+        <div id="messagesList" class="messages-list"></div>
+      </section>
+
+      <footer class="app-footer">Dibuat dengan ❤️ di CODEX 2026</footer>
+    </div>
+
+    <script src="./script.js" defer></script>
+
+    <script>
+      async function sendMessage() {
+        const input = document.getElementById("user-input");
+        const chatBox = document.getElementById("chat-box");
+        const prompt = input.value;
+        if (!prompt) return;
+
+        appendMessage("user", prompt);
+        input.value = "";
+
+        try {
+          const response = await fetch(
+            `http://localhost:5000/chat?prompt=${encodeURIComponent(prompt)}`,
+          );
+          const result = await response.json();
+
+          if (result.status === "success") {
+            console.log("🚀 ~ result:", result);
+            appendMessage("bot", result.message.content);
+          }
+        } catch (error) {
+          appendMessage("bot", "Maaf, sistem sedang sibuk.");
+        }
+      }
+
+      function appendMessage(role, text) {
+        const chatBox = document.getElementById("chat-box");
+        const msgDiv = document.createElement("div");
+        msgDiv.className = `message ${role}`;
+        msgDiv.innerText = text;
+        chatBox.appendChild(msgDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }
+    </script>
+  </body>
+</html>
