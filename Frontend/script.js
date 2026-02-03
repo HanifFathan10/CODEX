@@ -1,64 +1,138 @@
-const myPersona = {
-  name: "Admin CODEX",
-  links: [
-    {
-      title: "WhatsApp Me",
-      url: "https://wa.me/628123456789",
-      icon: "fa-brands fa-whatsapp",
-    },
-    {
-      title: "Instagram",
-      url: "https://instagram.com/hmif_ukri",
-      icon: "fa-brands fa-instagram",
-    },
-    {
-      title: "Facebook",
-      url: "https://facebook.com/hmif_ukri",
-      icon: "fa-brands fa-facebook",
-    },
-    {
-      title: "LinkedIn Profile",
-      url: "https://linkedin.com/in/himpunan-mahasiswa-teknik-informatika-hmif-ukri",
-      icon: "fa-brands fa-linkedin",
-    },
-  ],
-  skills: [
-    { name: "HTML/CSS", level: "90%" },
-    { name: "JavaScript", level: "75%" },
-    { name: "UI Design", level: "80%" },
-    { name: "Node.js", level: "60%" },
-  ],
-};
+document.addEventListener("DOMContentLoaded", () => {
+  setupEventListeners();
+  getDataProfile();
+});
 
-function initPersona() {
-  const userNameElement = document.getElementById("userName");
-  if (userNameElement) userNameElement.innerText = myPersona.name;
-
-  const linksContainer = document.getElementById("linksContainer");
-  if (linksContainer) {
-    myPersona.links.forEach((link) => {
-      const a = document.createElement("a");
-      a.href = link.url;
-      a.target = "_blank";
-      a.className = "persona-link glass";
-      a.innerHTML = `<i class="${link.icon}"></i> <span>${link.title}</span>`;
-      linksContainer.appendChild(a);
-    });
+function setupEventListeners() {
+  const sendBtn = document.querySelector(".btn-chat");
+  if (sendBtn) {
+    sendBtn.addEventListener("click", sendMessage);
   }
 
-  const skillsGrid = document.getElementById("skillsGrid");
-  if (skillsGrid) {
-    myPersona.skills.forEach((skill) => {
-      const div = document.createElement("div");
-      div.className = "skill-card glass";
-      div.innerHTML = `
+  const inputBox = document.getElementById("user-input");
+  if (inputBox) {
+    inputBox.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        sendMessage();
+      }
+    });
+  }
+}
+
+async function getDataProfile() {
+  const nameEl = document.getElementById("userName");
+  const roleEl = document.getElementById("user-role");
+  const bioEl = document.getElementById("user-bio");
+  const linksContainer = document.getElementById("linksContainer");
+  const skillsContainer = document.getElementById("skillsGrid");
+
+  try {
+    const response = await fetch("http://localhost:5000/profile");
+    const result = await response.json();
+
+    if (result.status === true) {
+      const data = result.data;
+
+      if (nameEl) nameEl.textContent = data.profile.name;
+      if (roleEl) roleEl.textContent = data.profile.role;
+      if (bioEl) bioEl.textContent = data.profile.bio;
+
+      if (linksContainer && data.links) {
+        renderLinks(data.links, linksContainer);
+      }
+
+      if (skillsContainer && data.skills) {
+        renderSkills(data.skills, skillsContainer);
+      }
+    }
+  } catch (error) {
+    appendMessage("bot", "Gagal memuat data profil.");
+  }
+}
+
+function renderLinks(linksData, container) {
+  container.innerHTML = "";
+
+  linksData.forEach((link) => {
+    const a = document.createElement("a");
+    a.href = link.url;
+    a.target = "_blank";
+    a.className = "persona-link glass";
+    a.innerHTML = `<i class="${link.icon}"></i> <span>${link.title}</span>`;
+    linksContainer.appendChild(a);
+
+    container.appendChild(a);
+  });
+}
+
+function renderSkills(skillsData, container) {
+  container.innerHTML = "";
+
+  skillsData.forEach((skill) => {
+    const div = document.createElement("div");
+    div.className = "skill-card glass";
+    div.innerHTML = `
                 <p class="skill-name">${skill.name}</p>
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: ${skill.level}"></div>
                 </div>
             `;
-      skillsGrid.appendChild(div);
+    skillsGrid.appendChild(div);
+
+    container.appendChild(div);
+  });
+}
+
+function setupEventListeners() {
+  const sendBtn = document.querySelector(".btn-chat");
+  if (sendBtn) {
+    sendBtn.addEventListener("click", sendMessage);
+  }
+
+  const inputBox = document.getElementById("user-input");
+  if (inputBox) {
+    inputBox.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        sendMessage();
+      }
     });
+  }
+}
+
+function appendMessage(role, text) {
+  const chatBox = document.getElementById("chat-box");
+  const msgDiv = document.createElement("div");
+
+  msgDiv.className = `message ${role}`;
+  msgDiv.innerText = text;
+
+  chatBox.appendChild(msgDiv);
+
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+async function sendMessage() {
+  const input = document.getElementById("user-input");
+  const prompt = input.value.trim();
+
+  if (!prompt) return;
+
+  appendMessage("user", prompt);
+  input.value = "";
+
+  try {
+    const response = await fetch(
+      `http://localhost:5000/chat?prompt=${encodeURIComponent(prompt)}`,
+    );
+    const result = await response.json();
+
+    if (result.status === "success") {
+      appendMessage("bot", result.message.content);
+    } else {
+      appendMessage("bot", "Maaf, saya sedang pusing. Coba lagi nanti.");
+    }
+  } catch (error) {
+    appendMessage("bot", "Maaf, sistem sedang offline.");
   }
 }
 
@@ -90,5 +164,3 @@ if (guestForm && msgList) {
     guestForm.reset();
   });
 }
-
-document.addEventListener("DOMContentLoaded", initPersona);

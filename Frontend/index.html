@@ -31,12 +31,8 @@
 
         <div class="profile-info">
           <h1 id="userName" class="user-name">Nama Mahasiswa</h1>
-          <p class="user-role">Mahasiswa Teknik Informatika</p>
-          <p class="user-bio">
-            "Halo, saya mahasiswa teknik Informatika universitas kebangsaan
-            republik indonesia. Selamat datang di website portolio saya, contact
-            me if u needed any information!"
-          </p>
+          <p id="user-role" class="user-role">Mahasiswa Teknik Informatika</p>
+          <p id="user-bio" class="user-bio">"Halo!"</p>
         </div>
       </header>
 
@@ -77,7 +73,6 @@
       >
         <div class="guestbook-card glass">
           <h2 class="section-title">Tinggalkan Pesan</h2>
-          <hr />
           <form id="guestbookForm" class="guestbook-form">
             <input
               type="text"
@@ -101,41 +96,6 @@
       <footer class="app-footer">Dibuat dengan ❤️ di CODEX 2026</footer>
     </div>
 
-    <script src="./script.js" defer></script>
-
-    <script>
-      async function sendMessage() {
-        const input = document.getElementById("user-input");
-        const chatBox = document.getElementById("chat-box");
-        const prompt = input.value;
-        if (!prompt) return;
-
-        appendMessage("user", prompt);
-        input.value = "";
-
-        try {
-          const response = await fetch(
-            `http://localhost:5000/chat?prompt=${encodeURIComponent(prompt)}`,
-          );
-          const result = await response.json();
-
-          if (result.status === "success") {
-            console.log("🚀 ~ result:", result);
-            appendMessage("bot", result.message.content);
-          }
-        } catch (error) {
-          appendMessage("bot", "Maaf, sistem sedang sibuk.");
-        }
-      }
-
-      function appendMessage(role, text) {
-        const chatBox = document.getElementById("chat-box");
-        const msgDiv = document.createElement("div");
-        msgDiv.className = `message ${role}`;
-        msgDiv.innerText = text;
-        chatBox.appendChild(msgDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-      }
-    </script>
+    <script src="./script.js"></script>
   </body>
 </html>
